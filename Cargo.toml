@@ -1,0 +1,10 @@
+[package]
+name = "interrupts"
+version = "0.1.0"
+authors = ["Martin Kröning <mkroening@posteo.net>"]
+edition = "2021"
+description = "Cross-architecture utilities for temporarily disabling interrupts."
+repository = "https://github.com/mkroening/interrupts"
+license = "MIT OR Apache-2.0"
+keywords = ["interrupts", "disable", "without"]
+categories = ["no-std"]
