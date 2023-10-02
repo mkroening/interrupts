@@ -4,7 +4,7 @@
 [![docs.rs](https://img.shields.io/docsrs/interrupts)](https://docs.rs/interrupts)
 [![CI](https://github.com/mkroening/interrupts/actions/workflows/ci.yml/badge.svg)](https://github.com/mkroening/interrupts/actions/workflows/ci.yml)
 
-Cross-architecture utilities for temporarily disabling interrupts.
+Cross-architecture utilities for temporarily disabling interrupts and signals.
 
 Use [`disable`] to disable interrupts with a guard:
 

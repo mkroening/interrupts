@@ -1,6 +1,6 @@
-#[cfg(not(target_os = "none"))]
+#[cfg(not(any(target_os = "none", unix)))]
 mod unsupported;
-#[cfg(not(target_os = "none"))]
+#[cfg(not(any(target_os = "none", unix)))]
 pub use unsupported::*;
 
 #[cfg(all(target_os = "none", target_arch = "aarch64"))]
@@ -17,3 +17,8 @@ pub use riscv64::*;
 mod x86_64;
 #[cfg(all(target_os = "none", target_arch = "x86_64"))]
 pub use x86_64::*;
+
+#[cfg(unix)]
+mod unix;
+#[cfg(unix)]
+pub use unix::*;
