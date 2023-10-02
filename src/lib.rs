@@ -9,6 +9,16 @@
 //!
 //! When used on targets with an operating system (not `cfg!(target_os = "none")`), this crate does nothing.
 //!
+//! # Caveats
+//!
+//! <div class="warning">Interrupts are disabled on a best-effort basis.</div>
+//!
+//! Even though this crate makes sure that interrupts are disabled, nothing prevents you from manually enabling them again.
+//!
+//! [Manually dropping] [`Guard`]s  may also cause interrupts to be enabled.
+//!
+//! [Manually dropping]: Guard#caveats-drop-order
+//!
 //! # Examples
 //!
 //! Use [`disable`] to disable interrupts with a guard:
@@ -75,6 +85,18 @@ pub fn disable() -> Guard {
 /// While an instance of this guard is held, interrupts are disabled.
 /// When this guard is dropped, interrupts are restored to the state before disabling.
 ///
+/// # Caveats (Drop Order)
+///
+/// If interrupts are enabled, acquiring a guard will disable them.
+/// Dropping this guard will enable interrupts again.
+/// Different [`Guard`]s might be dropped in arbitrary order.
+///
+/// This may result in interrupts being enabled again, even though another [`Guard`] is still held.
+/// For this to happen, one must explicitly drop guards in the wrong order, though.
+/// As long as guards don't leave their original [drop scope], they are dropped automatically in the correct order.
+///
+/// [drop scope]: https://doc.rust-lang.org/reference/destructors.html#drop-scopes
+///
 /// # Examples
 ///
 /// ```
@@ -83,6 +105,18 @@ pub fn disable() -> Guard {
 /// // interrupts are disabled
 /// drop(guard);
 /// // interrupts are restored to the previous state
+/// ```
+///
+/// Dropping guards in the wrong order (don't do this):
+///
+/// ```
+/// // Interrupts are enabled
+/// let a = interrupts::disable();
+/// // Interrupts are disabled
+/// let b = interrupts::disable();
+/// drop(a);
+/// // Interrupts are enabled, although we still hold a guard in b
+/// drop(b);
 /// ```
 pub struct Guard {
     flags: imp::Flags,
