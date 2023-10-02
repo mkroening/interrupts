@@ -1,13 +1,24 @@
-//! Cross-architecture utilities for temporarily disabling interrupts.
+//! Cross-architecture utilities for temporarily disabling interrupts and signals.
 //!
 //! This crate allows you to temporarily disable interrupts and then restore the previous state again.
 //!
-//! Supported architectures:
-//! - AArch64 (`aarch64`)
-//! - 64-bit RISC-V (`riscv64`)
-//! - x86-64 (`x86_64`)
+//! Supported platforms:
 //!
-//! When used on targets with an operating system (not `cfg!(target_os = "none")`), this crate does nothing.
+//! -   bare-metal (kernel mode, `target_os = "none"`)
+//!
+//!     Disables hardware interrupts.
+//!
+//!     - AArch64 (`arch = aarch64`)
+//!
+//!     - 64-bit RISC-V (`arch = riscv64`)
+//!
+//!     - x86-64 (`arch = x86_64`)
+//!
+//! -   Unix (user mode, `unix`)
+//!
+//!     Disables signals.
+//!
+//! On targets with non-unix operating systems (not `cfg!(unix)`), this crate does nothing.
 //!
 //! # Caveats
 //!
@@ -41,7 +52,7 @@
 //! // interrupts are restored to the previous state
 //! ```
 
-#![no_std]
+#![cfg_attr(target_os = "none", no_std)]
 
 mod imp;
 
