@@ -1,5 +1,5 @@
 cfg_if::cfg_if! {
-    if #[cfg(unix)] {
+    if #[cfg(all(unix, not(miri)))] {
         mod unix;
         pub use self::unix::*;
     } else if #[cfg(all(target_os = "none", target_arch = "aarch64"))] {
