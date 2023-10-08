@@ -51,6 +51,14 @@
 //! });
 //! // interrupts are restored to the previous state
 //! ```
+//!
+//! # Related Crates
+//!
+//! - [interrupt-ref-cell] (A `RefCell` for sharing data with interrupt handlers or signal handlers on the same thread.)
+//! - [interrupt-mutex] (A mutex for sharing data with interrupt handlers or signal handlers.)
+//!
+//! [interrupt-ref-cell]: https://crates.io/crates/interrupt-ref-cell
+//! [interrupt-mutex]: https://crates.io/crates/interrupt-mutex
 
 #![cfg_attr(target_os = "none", no_std)]
 
