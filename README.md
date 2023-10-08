@@ -32,6 +32,14 @@ For API documentation, see the [docs].
 [`without`]: https://docs.rs/interrupts/latest/interrupts/fn.without.html
 [docs]: https://docs.rs/interrupts
 
+## Related Crates
+
+- [interrupt-ref-cell] (A `RefCell` for sharing data with interrupt handlers or signal handlers on the same thread.)
+- [interrupt-mutex] (A mutex for sharing data with interrupt handlers or signal handlers.)
+
+[interrupt-ref-cell]: https://crates.io/crates/interrupt-ref-cell
+[interrupt-mutex]: https://crates.io/crates/interrupt-mutex
+
 ## License
 
 Licensed under either of
