@@ -15,7 +15,7 @@ pub fn read_disable() -> Flags {
             // Omit `nomem` to imitate a lock acquire.
             // Otherwise, the compiler is free to move
             // reads and writes through this asm block.
-            options(nostack)
+            options(preserves_flags, nostack)
         );
     }
     flags
@@ -31,7 +31,7 @@ pub fn restore(flags: Flags) {
             // Omit `nomem` to imitate a lock release.
             // Otherwise, the compiler is free to move
             // reads and writes through this asm block.
-            options(nostack)
+            options(preserves_flags, nostack)
         );
     }
 }
