@@ -12,7 +12,10 @@ pub fn read_disable() -> Flags {
             // Set SIE and MIE
             "csrrci {rd}, mstatus, 0b1010",
             rd = out(reg) flags,
-            options(nomem, nostack)
+            // Omit `nomem` to imitate a lock acquire.
+            // Otherwise, the compiler is free to move
+            // reads and writes through this asm block.
+            options(nostack)
         );
     }
     flags
@@ -25,7 +28,10 @@ pub fn restore(flags: Flags) {
             // Atomic Set Bits in CSR
             "csrs mstatus, {rs1}",
             rs1 = in(reg) flags,
-            options(nomem, nostack)
+            // Omit `nomem` to imitate a lock release.
+            // Otherwise, the compiler is free to move
+            // reads and writes through this asm block.
+            options(nostack)
         );
     }
 }
