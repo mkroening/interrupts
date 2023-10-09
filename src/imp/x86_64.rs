@@ -12,7 +12,10 @@ pub fn read_disable() -> Flags {
             "pop {}",
             "cli",
             out(reg) rflags,
-            options(nomem, preserves_flags)
+            // Omit `nomem` to imitate a lock acquire.
+            // Otherwise, the compiler is free to move
+            // reads and writes through this asm block.
+            options(preserves_flags)
         );
     }
 
@@ -25,7 +28,13 @@ pub fn read_disable() -> Flags {
 pub fn restore(enable: Flags) {
     if enable {
         unsafe {
-            asm!("sti", options(nomem, preserves_flags));
+            asm!(
+                "sti",
+                // Omit `nomem` to imitate a lock acquire.
+                // Otherwise, the compiler is free to move
+                // reads and writes through this asm block.
+                options(preserves_flags)
+            );
         }
     }
 }

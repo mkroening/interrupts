@@ -65,19 +65,10 @@
 mod imp;
 
 use core::marker::PhantomData;
-use core::sync::atomic::{compiler_fence, Ordering};
 
 /// Temporarily disable interrupts.
 ///
 /// Interrupts are enabled once the returned [`Guard`] is dropped.
-///
-/// # Synchronization
-///
-/// This synchronizes the current thread _with itself_ via a [`compiler_fence`].
-///
-/// A compiler fence is sufficient for sharing a `!Sync` type, such as [`RefCell`], with an interrupt handler on the same hardware thread (core).
-///
-/// [`RefCell`]: core::cell::RefCell
 ///
 /// # Examples
 ///
@@ -90,7 +81,6 @@ use core::sync::atomic::{compiler_fence, Ordering};
 /// ```
 #[inline]
 pub fn disable() -> Guard {
-    compiler_fence(Ordering::Acquire);
     Guard {
         flags: imp::read_disable(),
         _not_send: PhantomData,
@@ -157,7 +147,6 @@ impl Guard {
 impl Drop for Guard {
     #[inline]
     fn drop(&mut self) {
-        compiler_fence(Ordering::Release);
         #[allow(clippy::unit_arg)]
         imp::restore(self.flags);
     }
@@ -171,14 +160,6 @@ impl Drop for Guard {
 /// If you have other `enable` and `disable` calls _within_ the closure, things may not work as expected.
 ///
 /// Only has an effect if `target_os = "none"`.
-///
-/// # Synchronization
-///
-/// This synchronizes the current thread _with itself_ via a [`compiler_fence`].
-///
-/// A compiler fence is sufficient for sharing a `!Sync` type, such as [`RefCell`], with an interrupt handler on the same hardware thread (core).
-///
-/// [`RefCell`]: core::cell::RefCell
 ///
 /// # Examples
 ///
