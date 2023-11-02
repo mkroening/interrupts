@@ -9,8 +9,8 @@ pub fn read_disable() -> Flags {
         asm!(
             // Atomic Read and Clear Immediate Bits in CSR
             // `csrx rd, csr, rs1`
-            // Set SIE and MIE
-            "csrrci {rd}, mstatus, 0b1010",
+            // Set SIE
+            "csrrci {rd}, sstatus, 0b10",
             rd = out(reg) flags,
             // Omit `nomem` to imitate a lock acquire.
             // Otherwise, the compiler is free to move
@@ -26,7 +26,7 @@ pub fn restore(flags: Flags) {
     unsafe {
         asm!(
             // Atomic Set Bits in CSR
-            "csrs mstatus, {rs1}",
+            "csrs sstatus, {rs1}",
             rs1 = in(reg) flags,
             // Omit `nomem` to imitate a lock release.
             // Otherwise, the compiler is free to move
