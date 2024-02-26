@@ -13,4 +13,4 @@ categories = ["no-std::no-alloc", "os::unix-apis"]
 cfg-if = "1"
 
 [target.'cfg(unix)'.dependencies]
-nix = { version = "0.27", features = ["signal"] }
+nix = { version = "0.28", features = ["signal"] }
