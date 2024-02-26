@@ -1,3 +1,6 @@
+[workspace]
+members = ["interrupts-derive"]
+
 [package]
 name = "interrupts"
 version = "0.1.5"
@@ -11,6 +14,11 @@ categories = ["no-std::no-alloc", "os::unix-apis"]
 
 [dependencies]
 cfg-if = "1"
+interrupts-derive = { optional = true, path = "interrupts-derive" }
 
 [target.'cfg(unix)'.dependencies]
 nix = { version = "0.28", features = ["signal"] }
+
+[features]
+derive = ["interrupts-derive"]
+nightly = []

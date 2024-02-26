@@ -61,10 +61,18 @@
 //! [interrupt-mutex]: https://crates.io/crates/interrupt-mutex
 
 #![cfg_attr(target_os = "none", no_std)]
+#![cfg_attr(feature = "nightly", feature(auto_traits, negative_impls))]
 
 mod imp;
 
+mod marker;
+
 use core::marker::PhantomData;
+
+pub use self::marker::{InterruptSend, InterruptSync};
+
+#[cfg(feature = "interrupts-derive")]
+pub use interrupts_derive::{InterruptSend, InterruptSync};
 
 /// Temporarily disable interrupts.
 ///
