@@ -60,7 +60,7 @@
 //! [interrupt-ref-cell]: https://crates.io/crates/interrupt-ref-cell
 //! [interrupt-mutex]: https://crates.io/crates/interrupt-mutex
 
-#![cfg_attr(target_os = "none", no_std)]
+#![no_std]
 
 mod imp;
 
