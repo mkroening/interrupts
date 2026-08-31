@@ -1,6 +1,6 @@
 [package]
 name = "interrupts"
-version = "0.1.5"
+version = "0.2.0"
 edition = "2024"
 description = "Cross-architecture utilities for temporarily disabling interrupts."
 repository = "https://github.com/mkroening/interrupts"
