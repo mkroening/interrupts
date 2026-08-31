@@ -1,24 +1,16 @@
-//! Cross-architecture utilities for temporarily disabling interrupts and signals.
+//! Cross-architecture utilities for temporarily disabling interrupts.
 //!
 //! This crate allows you to temporarily disable interrupts and then restore the previous state again.
 //!
-//! Supported platforms:
+//! Supported architectures:
 //!
-//! -   bare-metal (kernel mode, `target_os = "none"`)
+//! - AArch64 (`arch = aarch64`)
 //!
-//!     Disables hardware interrupts.
+//! - 64-bit RISC-V (`arch = riscv64`)
 //!
-//!     - AArch64 (`arch = aarch64`)
+//! - x86-64 (`arch = x86_64`)
 //!
-//!     - 64-bit RISC-V (`arch = riscv64`)
-//!
-//!     - x86-64 (`arch = x86_64`)
-//!
-//! -   Unix (user mode, `unix`)
-//!
-//!     Disables signals.
-//!
-//! On targets with non-unix operating systems (not `cfg!(unix)`), this crate does nothing.
+//! On other architectures, this crate does nothing.
 //!
 //! # Caveats
 //!
@@ -34,7 +26,7 @@
 //!
 //! Use [`disable`] to disable interrupts with a guard:
 //!
-//! ```
+//! ```no_run
 //! // interrupts may or may not be enabled
 //! let guard = interrupts::disable();
 //! // interrupts are disabled
@@ -44,7 +36,7 @@
 //!
 //! Use [`without`] to run a closure with disabled interrupts:
 //!
-//! ```
+//! ```no_run
 //! // interrupts may or may not be enabled
 //! interrupts::without(|| {
 //!     // interrupts are disabled
@@ -54,13 +46,13 @@
 //!
 //! # Related Crates
 //!
-//! - [interrupt-ref-cell] (A `RefCell` for sharing data with interrupt handlers or signal handlers on the same thread.)
-//! - [interrupt-mutex] (A mutex for sharing data with interrupt handlers or signal handlers.)
+//! - [interrupt-ref-cell] (A `RefCell` for sharing data with interrupt handlers on the same thread.)
+//! - [interrupt-mutex] (A mutex for sharing data with interrupt handlers.)
 //!
 //! [interrupt-ref-cell]: https://crates.io/crates/interrupt-ref-cell
 //! [interrupt-mutex]: https://crates.io/crates/interrupt-mutex
 
-#![cfg_attr(target_os = "none", no_std)]
+#![no_std]
 
 mod imp;
 
@@ -72,7 +64,7 @@ use core::marker::PhantomData;
 ///
 /// # Examples
 ///
-/// ```
+/// ```no_run
 /// // interrupts may or may not be enabled
 /// let guard = interrupts::disable();
 /// // interrupts are disabled
@@ -108,7 +100,7 @@ pub fn disable() -> Guard {
 ///
 /// # Examples
 ///
-/// ```
+/// ```no_run
 /// // interrupts may or may not be enabled
 /// let guard = interrupts::disable();
 /// // interrupts are disabled
@@ -118,7 +110,7 @@ pub fn disable() -> Guard {
 ///
 /// Dropping guards in the wrong order (don't do this):
 ///
-/// ```
+/// ```no_run
 /// // Interrupts are enabled
 /// let a = interrupts::disable();
 /// // Interrupts are disabled
@@ -163,7 +155,7 @@ impl Drop for Guard {
 ///
 /// # Examples
 ///
-/// ```
+/// ```no_run
 /// // interrupts may or may not be enabled
 /// interrupts::without(|| {
 ///     // interrupts are disabled
@@ -173,7 +165,7 @@ impl Drop for Guard {
 ///
 /// Nesting:
 ///
-/// ```
+/// ```no_run
 /// // interrupts may be enabled
 /// interrupts::without(|| {
 ///     // interrupts are disabled

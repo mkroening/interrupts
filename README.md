@@ -4,7 +4,7 @@
 [![docs.rs](https://img.shields.io/docsrs/interrupts)](https://docs.rs/interrupts)
 [![CI](https://github.com/mkroening/interrupts/actions/workflows/ci.yml/badge.svg)](https://github.com/mkroening/interrupts/actions/workflows/ci.yml)
 
-Cross-architecture utilities for temporarily disabling interrupts and signals.
+Cross-architecture utilities for temporarily disabling interrupts.
 
 Use [`disable`] to disable interrupts with a guard:
 
@@ -34,8 +34,8 @@ For API documentation, see the [docs].
 
 ## Related Crates
 
-- [interrupt-ref-cell] (A `RefCell` for sharing data with interrupt handlers or signal handlers on the same thread.)
-- [interrupt-mutex] (A mutex for sharing data with interrupt handlers or signal handlers.)
+- [interrupt-ref-cell] (A `RefCell` for sharing data with interrupt handlers on the same thread.)
+- [interrupt-mutex] (A mutex for sharing data with interrupt handlers.)
 
 [interrupt-ref-cell]: https://crates.io/crates/interrupt-ref-cell
 [interrupt-mutex]: https://crates.io/crates/interrupt-mutex

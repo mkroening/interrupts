@@ -2,11 +2,8 @@
 name = "interrupts"
 version = "0.1.5"
 edition = "2024"
-description = "Cross-architecture utilities for temporarily disabling interrupts and signals."
+description = "Cross-architecture utilities for temporarily disabling interrupts."
 repository = "https://github.com/mkroening/interrupts"
 license = "MIT OR Apache-2.0"
-keywords = ["interrupts", "signals", "disable", "without"]
-categories = ["no-std::no-alloc", "os::unix-apis"]
-
-[target.'cfg(unix)'.dependencies]
-nix = { version = "0.31", features = ["signal"] }
+keywords = ["interrupts", "disable", "without"]
+categories = ["no-std::no-alloc"]
